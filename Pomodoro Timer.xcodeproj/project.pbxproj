@@ -9,21 +9,29 @@
 /* Begin PBXBuildFile section */
 		2B0E118C252D772E00364264 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E118B252D772E00364264 /* AppDelegate.swift */; };
 		2B0E118E252D772E00364264 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E118D252D772E00364264 /* SceneDelegate.swift */; };
-		2B0E1190252D772E00364264 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E118F252D772E00364264 /* ViewController.swift */; };
+		2B0E1190252D772E00364264 /* TimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E118F252D772E00364264 /* TimerViewController.swift */; };
 		2B0E1193252D772E00364264 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B0E1191252D772E00364264 /* Main.storyboard */; };
 		2B0E1195252D772F00364264 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B0E1194252D772F00364264 /* Assets.xcassets */; };
 		2B0E1198252D772F00364264 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B0E1196252D772F00364264 /* LaunchScreen.storyboard */; };
+		2B0E11A4252D777F00364264 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11A3252D777F00364264 /* CustomButton.swift */; };
+		2B0E11A7252D779500364264 /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11A6252D779500364264 /* CancelButton.swift */; };
+		2B0E11AC252D77E800364264 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11AB252D77E800364264 /* SettingsViewController.swift */; };
+		2B0E11AF252D780400364264 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11AE252D780400364264 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2B0E1188252D772E00364264 /* Pomodoro Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pomodoro Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B0E118B252D772E00364264 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B0E118D252D772E00364264 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2B0E118F252D772E00364264 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2B0E118F252D772E00364264 /* TimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
 		2B0E1192252D772E00364264 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2B0E1194252D772F00364264 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B0E1197252D772F00364264 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B0E1199252D772F00364264 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2B0E11A3252D777F00364264 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		2B0E11A6252D779500364264 /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
+		2B0E11AB252D77E800364264 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		2B0E11AE252D780400364264 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +66,41 @@
 			children = (
 				2B0E118B252D772E00364264 /* AppDelegate.swift */,
 				2B0E118D252D772E00364264 /* SceneDelegate.swift */,
-				2B0E118F252D772E00364264 /* ViewController.swift */,
+				2B0E11A0252D775100364264 /* Model */,
+				2B0E11A1252D775600364264 /* View */,
+				2B0E11A2252D775E00364264 /* Controller */,
 				2B0E1191252D772E00364264 /* Main.storyboard */,
 				2B0E1194252D772F00364264 /* Assets.xcassets */,
 				2B0E1196252D772F00364264 /* LaunchScreen.storyboard */,
 				2B0E1199252D772F00364264 /* Info.plist */,
 			);
 			path = "Pomodoro Timer";
+			sourceTree = "<group>";
+		};
+		2B0E11A0252D775100364264 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2B0E11A1252D775600364264 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2B0E11A3252D777F00364264 /* CustomButton.swift */,
+				2B0E11A6252D779500364264 /* CancelButton.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2B0E11A2252D775E00364264 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2B0E118F252D772E00364264 /* TimerViewController.swift */,
+				2B0E11AB252D77E800364264 /* SettingsViewController.swift */,
+				2B0E11AE252D780400364264 /* TabBarController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,9 +173,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B0E1190252D772E00364264 /* ViewController.swift in Sources */,
+				2B0E11A4252D777F00364264 /* CustomButton.swift in Sources */,
+				2B0E1190252D772E00364264 /* TimerViewController.swift in Sources */,
 				2B0E118C252D772E00364264 /* AppDelegate.swift in Sources */,
 				2B0E118E252D772E00364264 /* SceneDelegate.swift in Sources */,
+				2B0E11AF252D780400364264 /* TabBarController.swift in Sources */,
+				2B0E11A7252D779500364264 /* CancelButton.swift in Sources */,
+				2B0E11AC252D77E800364264 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
