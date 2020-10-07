@@ -65,22 +65,30 @@ class SettingsViewController: UITableViewController {
         let name = sectionNames[indexPath.section][indexPath.row]
         
         cell.textLabel?.text = name
-        
+        cell.selectionStyle = .none
         
         let mySwitch = UISwitch()
         mySwitch.onTintColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         mySwitch.addTarget(self, action: #selector(switchSwitched), for: .valueChanged)
         
-        
+        let myButton = TimerButton()
+        myButton.setTitle("Set time", for: .normal)
+        myButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        myButton.backgroundColor = .red
         
         
         switch indexPath.section {
-        case 0: cell.backgroundColor = .white
+        case 0: cell.accessoryView = myButton
         case 1: cell.accessoryView = mySwitch
         default: break
         }
-        cell.selectionStyle = .none
+        
         return cell
+    }
+    
+    //MARK: - Selectors
+    @objc func buttonTapped(sender: UIButton) {
+        print("Im being tapped")
     }
     
     @objc func switchSwitched(sender: UISwitch) {
