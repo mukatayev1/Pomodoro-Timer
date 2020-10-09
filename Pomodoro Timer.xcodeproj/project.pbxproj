@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,7 +18,6 @@
 		2B0E11A7252D779500364264 /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11A6252D779500364264 /* CancelButton.swift */; };
 		2B0E11AC252D77E800364264 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11AB252D77E800364264 /* SettingsViewController.swift */; };
 		2B0E11AF252D780400364264 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11AE252D780400364264 /* TabBarController.swift */; };
-		2B0E11DA252DF9F500364264 /* CustomPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11D9252DF9F500364264 /* CustomPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +34,6 @@
 		2B0E11A6252D779500364264 /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
 		2B0E11AB252D77E800364264 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2B0E11AE252D780400364264 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		2B0E11D9252DF9F500364264 /* CustomPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerView.swift; sourceTree = "<group>"; };
 		7B21660924CDC0F9B6FE6C6A /* Pods-Pomodoro Timer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pomodoro Timer.release.xcconfig"; path = "Target Support Files/Pods-Pomodoro Timer/Pods-Pomodoro Timer.release.xcconfig"; sourceTree = "<group>"; };
 		90E6B8F7F73571E183082DD2 /* Pods_Pomodoro_Timer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pomodoro_Timer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -105,7 +103,6 @@
 			isa = PBXGroup;
 			children = (
 				2B0E11A3252D777F00364264 /* CustomButton.swift */,
-				2B0E11D9252DF9F500364264 /* CustomPickerView.swift */,
 				2B0E11A6252D779500364264 /* CancelButton.swift */,
 			);
 			path = View;
@@ -127,7 +124,6 @@
 				0B65097E0A82D9F3F777A8D7 /* Pods-Pomodoro Timer.debug.xcconfig */,
 				7B21660924CDC0F9B6FE6C6A /* Pods-Pomodoro Timer.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -250,7 +246,6 @@
 				2B0E118C252D772E00364264 /* AppDelegate.swift in Sources */,
 				2B0E118E252D772E00364264 /* SceneDelegate.swift in Sources */,
 				2B0E11AF252D780400364264 /* TabBarController.swift in Sources */,
-				2B0E11DA252DF9F500364264 /* CustomPickerView.swift in Sources */,
 				2B0E11A7252D779500364264 /* CancelButton.swift in Sources */,
 				2B0E11AC252D77E800364264 /* SettingsViewController.swift in Sources */,
 			);

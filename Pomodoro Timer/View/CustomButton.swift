@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TimerButton: UIButton {
+class CustomButton: UIButton {
     
     var isOn = false
     
@@ -30,7 +30,7 @@ class TimerButton: UIButton {
         setTitle("Start", for: .normal)
         backgroundColor = .clear
         setTitleColor(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1), for: .normal)
-        addTarget(self, action: #selector(TimerButton.buttonPressed), for: .touchUpInside)
+        addTarget(self, action: #selector(CustomButton.buttonPressed), for: .touchUpInside)
     }
     
     @objc func buttonPressed() {

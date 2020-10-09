@@ -9,6 +9,7 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
+    
     let cellID = "cellID-123"
     
     let sectionNames = [
@@ -28,6 +29,7 @@ class SettingsViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        tableView.tableFooterView = UIView()
         
     }
     
@@ -63,7 +65,6 @@ class SettingsViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
     
         let name = sectionNames[indexPath.section][indexPath.row]
-        
         cell.textLabel?.text = name
         cell.selectionStyle = .none
         
@@ -71,14 +72,30 @@ class SettingsViewController: UITableViewController {
         mySwitch.onTintColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         mySwitch.addTarget(self, action: #selector(switchSwitched), for: .valueChanged)
         
-        let myButton = TimerButton()
-        myButton.setTitle("Set time", for: .normal)
-        myButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        myButton.backgroundColor = .red
+        let button = UIButton(type: .custom)
+        button.setTitle("set working timer", for: .normal)
+        button.backgroundColor = .clear
+        button.setTitleColor(UIColor.darkGray, for: .normal)
+        button.sizeToFit()
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        button.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
+
+        let button1 = UIButton(type: .custom)
+        button1.setTitle("set resting timer", for: .normal)
+        button1.backgroundColor = .clear
+        button1.setTitleColor(UIColor.darkGray, for: .normal)
+        button1.sizeToFit()
+        button1.addTarget(self, action: #selector(buttonTapped1), for: .touchUpInside)
+        button1.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
+
         
         
         switch indexPath.section {
-        case 0: cell.accessoryView = myButton
+        case 0: switch indexPath.row {
+        case 0: cell.accessoryView = button
+        case 1: cell.accessoryView = button1
+        default: break
+        }
         case 1: cell.accessoryView = mySwitch
         default: break
         }
@@ -87,8 +104,17 @@ class SettingsViewController: UITableViewController {
     }
     
     //MARK: - Selectors
+    
+    var isActive = false
     @objc func buttonTapped(sender: UIButton) {
-        print("Im being tapped")
+//        print("Im being tapped")
+           
+
+    }
+    
+    @objc func buttonTapped1(sender: UIButton) {
+        print("Im being tapped1")
+           
     }
     
     @objc func switchSwitched(sender: UISwitch) {
@@ -100,4 +126,3 @@ class SettingsViewController: UITableViewController {
     }
     
 }
-

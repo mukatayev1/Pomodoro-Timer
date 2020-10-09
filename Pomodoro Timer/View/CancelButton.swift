@@ -9,7 +9,7 @@ import UIKit
 
 class CancelButton: UIButton {
     
-    let timerButton = TimerButton()
+    let timerButton = CustomButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
