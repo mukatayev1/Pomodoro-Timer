@@ -13,15 +13,23 @@ class TimerViewController: UIViewController {
     let bgShapeLayer = CAShapeLayer()
     var timeLeft: TimeInterval = 10
     var endTime: Date?
-    var timeLabel =  UILabel()
     var timer = Timer()
+    let pulseLayer = CAShapeLayer()
+    
+    let timeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 36, weight: .light)
+        return label
+    }()
     
     // here you create your basic animation object to animate the strokeEnd
     let strokeIt = CABasicAnimation(keyPath: "strokeEnd")
     
     func drawBgShape() {
         bgShapeLayer.path = UIBezierPath(arcCenter: CGPoint(x: view.frame.midX , y: view.frame.midY), radius:
-            150, startAngle: -90.degreesToRadians, endAngle: 270.degreesToRadians, clockwise: true).cgPath
+            135, startAngle: -90.degreesToRadians, endAngle: 270.degreesToRadians, clockwise: true).cgPath
         
         bgShapeLayer.strokeColor = UIColor.white.cgColor
         bgShapeLayer.fillColor = UIColor.clear.cgColor
@@ -31,7 +39,7 @@ class TimerViewController: UIViewController {
     
     func drawTimeLeftShape() {
         timeLeftShapeLayer.path = UIBezierPath(arcCenter: CGPoint(x: view.frame.midX , y: view.frame.midY), radius:
-            150, startAngle: -90.degreesToRadians, endAngle: 270.degreesToRadians, clockwise: true).cgPath
+            135, startAngle: -90.degreesToRadians, endAngle: 270.degreesToRadians, clockwise: true).cgPath
         
         timeLeftShapeLayer.strokeColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1).cgColor
         timeLeftShapeLayer.fillColor = UIColor.clear.cgColor
@@ -40,15 +48,28 @@ class TimerViewController: UIViewController {
         view.layer.addSublayer(timeLeftShapeLayer)
     }
     
-    func addTimeLabel() {
-        timeLabel = UILabel(frame: CGRect(x: view.frame.midX-50 ,y: view.frame.midY-25, width: 100, height: 50))
-        timeLabel.textAlignment = .center
-        timeLabel.text = timeLeft.time
-        timeLabel.font = UIFont(name: "AvenirNext", size: 50)
-        view.addSubview(timeLabel)
+//
+    func drawPulsatingLayer() {
+        let circularPath = UIBezierPath(arcCenter: .zero, radius: UIScreen.main.bounds.size.width/2.0, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
+        pulseLayer.path = circularPath.cgPath
+        pulseLayer.lineWidth = 2.0
+        pulseLayer.fillColor = UIColor.clear.cgColor
+        pulseLayer.strokeColor = UIColor.purple.cgColor
+        pulseLayer.lineCap = .round
+        pulseLayer.position = view.center
+        view.layer.addSublayer(pulseLayer)
     }
     
-    
+    func animatePulse() {
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.duration = 2.0
+        animation.fromValue = 0.7
+        animation.toValue = 0.9
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        animation.repeatCount = Float.infinity
+        animation.autoreverses = true
+        pulseLayer.add(animation, forKey: "scale")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,9 +82,13 @@ class TimerViewController: UIViewController {
         
         //timer circle
         view.backgroundColor = UIColor(white: 0.94, alpha: 1.0)
+        drawPulsatingLayer()
         drawBgShape()
         drawTimeLeftShape()
-        addTimeLabel()
+        drawPulsatingLayer()
+        view.addSubview(timeLabel)
+        timeLabel.frame = CGRect(x: 0, y: 0, width: 120, height: 100)
+        timeLabel.center = view.center
         // here you define the fromValue, toValue and duration of your animation
         strokeIt.fromValue = 0
         strokeIt.toValue = 1
@@ -75,6 +100,8 @@ class TimerViewController: UIViewController {
         endTime = Date().addingTimeInterval(timeLeft)
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         
+        //pulsating layer
+        animatePulse()
     }
     
     @objc func updateTime() {
