@@ -63,11 +63,12 @@ class TimerViewController: UIViewController {
     func animatePulse() {
         let animation = CABasicAnimation(keyPath: "transform.scale")
         animation.duration = 2.0
-        animation.fromValue = 0.7
+        animation.fromValue = 0.68
         animation.toValue = 0.9
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         animation.repeatCount = Float.infinity
         animation.autoreverses = true
+        animation.isRemovedOnCompletion = false
         pulseLayer.add(animation, forKey: "scale")
     }
 
@@ -79,6 +80,8 @@ class TimerViewController: UIViewController {
         onOffButtonSubviewed()
         cancelButtonSubviewed()
         activateCancelButton()
+        //pulsating layer
+        animatePulse()
         
         //timer circle
         view.backgroundColor = UIColor(white: 0.94, alpha: 1.0)
@@ -99,9 +102,6 @@ class TimerViewController: UIViewController {
         // define the future end time by adding the timeLeft to now Date()
         endTime = Date().addingTimeInterval(timeLeft)
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        
-        //pulsating layer
-        animatePulse()
     }
     
     @objc func updateTime() {
