@@ -16,6 +16,8 @@ class TimerViewController: UIViewController {
     var timer = Timer()
     let pulseLayer = CAShapeLayer()
     
+    let pomodoroBrain = PomodoroBrain()
+    
     let timeLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00"
@@ -135,7 +137,7 @@ class TimerViewController: UIViewController {
     @objc func OnOffbuttonPressed() {
         
         if onOffButton.currentTitle == "Start" {
-            startTimer()
+            pomodoroBrain.startTimer()
             
             isOn.toggle()
             
@@ -152,7 +154,7 @@ class TimerViewController: UIViewController {
             let color = isOn ? #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1): UIColor.clear
             let title = isOn ? "Pause": "Resume"
             let titleColor = isOn ? .white: #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
-            let functionality = isOn ? resumeTimer(): pauseTimer()
+            let functionality = isOn ? pomodoroBrain.resumeTimer(): pomodoroBrain.pauseTimer()
             
             onOffButton.setTitle(title, for: .normal)
             onOffButton.setTitleColor(titleColor, for: .normal)
@@ -188,27 +190,10 @@ class TimerViewController: UIViewController {
     }
     
     @objc func cancelButtonPressed() {
-        resetTimer()
+        pomodoroBrain.resetTimer()
         resetButton()
     }
-    
-    
-    //MARK: - Functionality
-        func startTimer() {
-            print("Start process")
-        }
-        
-        func pauseTimer() {
-            print("Pause the process")
-        }
-        
-        func resumeTimer() {
-            print("Resume the process")
-        }
-        
-        func resetTimer() {
-            print("Reset the process")
-        }
+
 }
 
 extension TimeInterval {
