@@ -80,6 +80,7 @@ class TimerViewController: UIViewController {
         onOffButtonSubviewed()
         cancelButtonSubviewed()
         activateCancelButton()
+        activateButton()
         //pulsating layer
         animatePulse()
         
@@ -111,14 +112,16 @@ class TimerViewController: UIViewController {
         timeLabel.text = timeLeft.time
 //        timeLabel.font = UIFont(name: "AvenirNext", size: 60)
         } else {
-        timeLabel.text = "00:00"
+        timeLabel.text = "00 : 00"
         timer.invalidate()
         }
     }
     
     //MARK: - Buttons creation
     
-    var onOffButton = CustomButton()
+    var onOffButton = OnOffButton()
+    var isOn = false
+//    var currentLabel = onOffLabels[0]
     
     func onOffButtonSubviewed() {
         view.addSubview(onOffButton)
@@ -128,6 +131,46 @@ class TimerViewController: UIViewController {
         onOffButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         onOffButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90).isActive = true
     }
+    
+    @objc func OnOffbuttonPressed() {
+        
+        if onOffButton.currentTitle == "Start" {
+            startTimer()
+            
+            isOn.toggle()
+            
+            let color = isOn ? #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1): UIColor.clear
+            let title = isOn ? "Pause": "Resume"
+            let titleColor = isOn ? .white: #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+            
+            onOffButton.setTitle(title, for: .normal)
+            onOffButton.setTitleColor(titleColor, for: .normal)
+            onOffButton.backgroundColor = color
+        } else {
+            isOn.toggle()
+            
+            let color = isOn ? #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1): UIColor.clear
+            let title = isOn ? "Pause": "Resume"
+            let titleColor = isOn ? .white: #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+            let functionality = isOn ? resumeTimer(): pauseTimer()
+            
+            onOffButton.setTitle(title, for: .normal)
+            onOffButton.setTitleColor(titleColor, for: .normal)
+            onOffButton.backgroundColor = color
+        }
+    }
+    
+    func activateButton() {
+        onOffButton.addTarget(self, action: #selector(OnOffbuttonPressed), for: .touchUpInside)
+    }
+    
+    func resetButton() {
+        isOn = false
+        onOffButton.setTitle("Start", for: .normal)
+        onOffButton.backgroundColor = .clear
+        onOffButton.setTitleColor(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1), for: .normal)
+    }
+
     
     var cancelButton = CancelButton()
     
@@ -145,10 +188,27 @@ class TimerViewController: UIViewController {
     }
     
     @objc func cancelButtonPressed() {
-        print("reset everything")
-        onOffButton.resetButton()
+        resetTimer()
+        resetButton()
     }
-
+    
+    
+    //MARK: - Functionality
+        func startTimer() {
+            print("Start process")
+        }
+        
+        func pauseTimer() {
+            print("Pause the process")
+        }
+        
+        func resumeTimer() {
+            print("Resume the process")
+        }
+        
+        func resetTimer() {
+            print("Reset the process")
+        }
 }
 
 extension TimeInterval {
