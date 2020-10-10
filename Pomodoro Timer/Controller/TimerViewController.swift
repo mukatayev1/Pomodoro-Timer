@@ -9,19 +9,21 @@ import UIKit
 
 class TimerViewController: UIViewController {
     
+    var workingTime: Bool = true
+    
     let timeLeftShapeLayer = CAShapeLayer()
     let bgShapeLayer = CAShapeLayer()
-    var timeLeft: TimeInterval = 10
+    var workingTimeLeft: TimeInterval = 10
+    var restingTimeLeft: TimeInterval = 5
     var endTime: Date?
     var timer = Timer()
     let pulseLayer = CAShapeLayer()
     
-    let pomodoroBrain = PomodoroBrain()
-    
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.text = "00:00"
+        label.text = "00 : 00"
         label.textAlignment = .center
+        label.textColor = UIColor.red
         label.font = UIFont.systemFont(ofSize: 36, weight: .light)
         return label
     }()
@@ -47,12 +49,13 @@ class TimerViewController: UIViewController {
         timeLeftShapeLayer.fillColor = UIColor.clear.cgColor
         timeLeftShapeLayer.lineWidth = 10
         timeLeftShapeLayer.lineCap = CAShapeLayerLineCap.round
+        timeLeftShapeLayer.strokeEnd = 0
         view.layer.addSublayer(timeLeftShapeLayer)
     }
     
 //
     func drawPulsatingLayer() {
-        let circularPath = UIBezierPath(arcCenter: .zero, radius: UIScreen.main.bounds.size.width/2.0, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
+        let circularPath = UIBezierPath(arcCenter: .zero, radius: 138, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
         pulseLayer.path = circularPath.cgPath
         pulseLayer.lineWidth = 2.0
         pulseLayer.fillColor = UIColor.clear.cgColor
@@ -65,8 +68,8 @@ class TimerViewController: UIViewController {
     func animatePulse() {
         let animation = CABasicAnimation(keyPath: "transform.scale")
         animation.duration = 2.0
-        animation.fromValue = 0.68
-        animation.toValue = 0.9
+        animation.fromValue = 1.0
+        animation.toValue = 1.4
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         animation.repeatCount = Float.infinity
         animation.autoreverses = true
@@ -83,8 +86,8 @@ class TimerViewController: UIViewController {
         cancelButtonSubviewed()
         activateCancelButton()
         activateButton()
-        //pulsating layer
-        animatePulse()
+//        //pulsating layer
+//        animatePulse()
         
         //timer circle
         view.backgroundColor = UIColor(white: 0.94, alpha: 1.0)
@@ -95,28 +98,17 @@ class TimerViewController: UIViewController {
         view.addSubview(timeLabel)
         timeLabel.frame = CGRect(x: 0, y: 0, width: 120, height: 100)
         timeLabel.center = view.center
-        // here you define the fromValue, toValue and duration of your animation
-        strokeIt.fromValue = 0
-        strokeIt.toValue = 1
-        strokeIt.duration = timeLeft
-        strokeIt.isRemovedOnCompletion = false
-        // add the animation to your timeLeftShapeLayer
-        timeLeftShapeLayer.add(strokeIt, forKey: nil)
-        // define the future end time by adding the timeLeft to now Date()
-        endTime = Date().addingTimeInterval(timeLeft)
-        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-    }
-    
-    @objc func updateTime() {
+//        // here you define the fromValue, toValue and duration of your animation
+//        strokeIt.fromValue = 0
+//        strokeIt.toValue = 1
+//        strokeIt.duration = timeLeft
+//        strokeIt.isRemovedOnCompletion = false
+//        // add the animation to your timeLeftShapeLayer
+//        timeLeftShapeLayer.add(strokeIt, forKey: nil)
+////         define the future end time by adding the timeLeft to now Date()
+//        endTime = Date().addingTimeInterval(timeLeft)
+//        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         
-    if timeLeft > 0 {
-        timeLeft = endTime?.timeIntervalSinceNow ?? 0
-        timeLabel.text = timeLeft.time
-//        timeLabel.font = UIFont(name: "AvenirNext", size: 60)
-        } else {
-        timeLabel.text = "00 : 00"
-        timer.invalidate()
-        }
     }
     
     //MARK: - Buttons creation
@@ -137,7 +129,7 @@ class TimerViewController: UIViewController {
     @objc func OnOffbuttonPressed() {
         
         if onOffButton.currentTitle == "Start" {
-            pomodoroBrain.startTimer()
+            startTimer()
             
             isOn.toggle()
             
@@ -154,7 +146,7 @@ class TimerViewController: UIViewController {
             let color = isOn ? #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1): UIColor.clear
             let title = isOn ? "Pause": "Resume"
             let titleColor = isOn ? .white: #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
-            let functionality = isOn ? pomodoroBrain.resumeTimer(): pomodoroBrain.pauseTimer()
+            let functionality = isOn ? resumeTimer():pauseTimer()
             
             onOffButton.setTitle(title, for: .normal)
             onOffButton.setTitleColor(titleColor, for: .normal)
@@ -190,8 +182,89 @@ class TimerViewController: UIViewController {
     }
     
     @objc func cancelButtonPressed() {
-        pomodoroBrain.resetTimer()
+        resetTimer()
         resetButton()
+    }
+    
+    //MARK: - Functionality
+    func startTimer() {
+        print("Start process")
+        if workingTime {
+            //pulsating layer
+            animatePulse()
+            
+    //       define the future end time by adding the timeLeft to now Date()
+            endTime = Date().addingTimeInterval(workingTimeLeft)
+            timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+            
+            // here you define the fromValue, toValue and duration of your animation
+    //        strokeIt.fromValue = 0
+            strokeIt.toValue = 1
+            strokeIt.duration = workingTimeLeft
+            strokeIt.isRemovedOnCompletion = false
+            // add the animation to your timeLeftShapeLayer
+            timeLeftShapeLayer.add(strokeIt, forKey: nil)
+        } else {
+            print("start resting time")
+            //pulsating layer
+            animatePulse()
+            
+    //       define the future end time by adding the timeLeft to now Date()
+            endTime = Date().addingTimeInterval(restingTimeLeft)
+            timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+            
+            // here you define the fromValue, toValue and duration of your animation
+    //        strokeIt.fromValue = 0
+            strokeIt.toValue = 1
+            strokeIt.duration = restingTimeLeft
+            strokeIt.isRemovedOnCompletion = false
+            // add the animation to your timeLeftShapeLayer
+            timeLeftShapeLayer.add(strokeIt, forKey: nil)
+            
+        }
+    }
+    
+    func pauseTimer() {
+        print("Pause the process")
+    }
+    
+    func resumeTimer() {
+        print("Resume the process")
+    }
+    
+    func resetTimer() {
+        print("Reset the process")
+    }
+    
+    //MARK: - @objc Functions
+    
+    @objc func updateTime() {
+        if workingTime {
+            if workingTimeLeft > 0 {
+                workingTimeLeft = endTime?.timeIntervalSinceNow ?? 0
+                timeLabel.text = workingTimeLeft.time
+                //        timeLabel.font = UIFont(name: "AvenirNext", size: 60)
+            } else {
+                timeLabel.text = "00 : 00"
+                timer.invalidate()
+                timeLabel.textColor = UIColor.green
+                workingTime = false
+                resetButton()
+            }
+        }
+        else {
+            if restingTimeLeft > 0 {
+                restingTimeLeft = endTime?.timeIntervalSinceNow ?? 0
+                timeLabel.text = restingTimeLeft.time
+                //        timeLabel.font = UIFont(name: "AvenirNext", size: 60)
+            } else {
+                timeLabel.text = "00 : 00"
+                timer.invalidate()
+                timeLabel.textColor = UIColor.red
+                workingTime = true
+                resetButton()
+            }
+        }
     }
 
 }

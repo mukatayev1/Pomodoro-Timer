@@ -87,8 +87,6 @@ class SettingsViewController: UITableViewController {
         button1.sizeToFit()
         button1.addTarget(self, action: #selector(buttonTapped1), for: .touchUpInside)
         button1.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
-
-        
         
         switch indexPath.section {
         case 0: switch indexPath.row {
