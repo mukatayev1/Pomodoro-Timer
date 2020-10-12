@@ -19,6 +19,7 @@
 		2B0E11AC252D77E800364264 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11AB252D77E800364264 /* SettingsViewController.swift */; };
 		2B0E11AF252D780400364264 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11AE252D780400364264 /* TabBarController.swift */; };
 		2BC8A37025319C7000AA177E /* PomodoroBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC8A36F25319C7000AA177E /* PomodoroBrain.swift */; };
+		2BEAFD6225347210004993D9 /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEAFD6125347210004993D9 /* SetupViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		2B0E11AB252D77E800364264 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2B0E11AE252D780400364264 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		2BC8A36F25319C7000AA177E /* PomodoroBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroBrain.swift; sourceTree = "<group>"; };
+		2BEAFD6125347210004993D9 /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
 		7B21660924CDC0F9B6FE6C6A /* Pods-Pomodoro Timer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pomodoro Timer.release.xcconfig"; path = "Target Support Files/Pods-Pomodoro Timer/Pods-Pomodoro Timer.release.xcconfig"; sourceTree = "<group>"; };
 		90E6B8F7F73571E183082DD2 /* Pods_Pomodoro_Timer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pomodoro_Timer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -116,6 +118,7 @@
 			children = (
 				2B0E118F252D772E00364264 /* TimerViewController.swift */,
 				2B0E11AB252D77E800364264 /* SettingsViewController.swift */,
+				2BEAFD6125347210004993D9 /* SetupViewController.swift */,
 				2B0E11AE252D780400364264 /* TabBarController.swift */,
 			);
 			path = Controller;
@@ -251,6 +254,7 @@
 				2B0E118E252D772E00364264 /* SceneDelegate.swift in Sources */,
 				2B0E11AF252D780400364264 /* TabBarController.swift in Sources */,
 				2B0E11A7252D779500364264 /* CancelButton.swift in Sources */,
+				2BEAFD6225347210004993D9 /* SetupViewController.swift in Sources */,
 				2B0E11AC252D77E800364264 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

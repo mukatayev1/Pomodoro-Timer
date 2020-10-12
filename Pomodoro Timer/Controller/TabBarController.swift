@@ -33,8 +33,7 @@ class TabBarController: UITabBarController {
         let navController = UINavigationController(rootViewController: vc)
         navController.tabBarItem.image = image
         navController.tabBarItem.title = title
-        
-        
+  
         return navController
     }
     

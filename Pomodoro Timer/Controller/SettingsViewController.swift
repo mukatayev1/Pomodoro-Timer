@@ -9,11 +9,12 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
+    private var timePicker: UIPickerView!
     
     let cellID = "cellID-123"
     
     let sectionNames = [
-        ["Working Inverval", "Resting Interval"],
+        ["Working Inverval"],
         ["Dark Mode"]
     ]
     
@@ -25,6 +26,7 @@ class SettingsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        timePicker = UIPickerView()
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -77,21 +79,21 @@ class SettingsViewController: UITableViewController {
         button.backgroundColor = .clear
         button.setTitleColor(UIColor.darkGray, for: .normal)
         button.sizeToFit()
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.workButtonTapped)))
         button.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
 
-        let button1 = UIButton(type: .custom)
-        button1.setTitle("set resting timer", for: .normal)
-        button1.backgroundColor = .clear
-        button1.setTitleColor(UIColor.darkGray, for: .normal)
-        button1.sizeToFit()
-        button1.addTarget(self, action: #selector(buttonTapped1), for: .touchUpInside)
-        button1.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
+//        let button1 = UIButton(type: .custom)
+//        button1.setTitle("set resting timer", for: .normal)
+//        button1.backgroundColor = .clear
+//        button1.setTitleColor(UIColor.darkGray, for: .normal)
+//        button1.sizeToFit()
+//        button1.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
+//        button1.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
         
         switch indexPath.section {
         case 0: switch indexPath.row {
         case 0: cell.accessoryView = button
-        case 1: cell.accessoryView = button1
+//        case 1: cell.accessoryView = button1
         default: break
         }
         case 1: cell.accessoryView = mySwitch
@@ -104,13 +106,14 @@ class SettingsViewController: UITableViewController {
     //MARK: - Selectors
     
     var isActive = false
-    @objc func buttonTapped(sender: UIButton) {
-//        print("Im being tapped")
+    @objc func workButtonTapped(sender: UIButton) {
+        
+        print("Im being tapped")
            
 
     }
     
-    @objc func buttonTapped1(sender: UIButton) {
+    @objc func restButtonTapped(sender: UIButton) {
         print("Im being tapped1")
            
     }
