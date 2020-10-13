@@ -9,6 +9,8 @@ import UIKit
 
 class SetupViewController: UIViewController {
     
+    public var completionHandler: ((TimeInterval) -> Void)?
+    
     let timePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .countDownTimer
@@ -27,8 +29,6 @@ class SetupViewController: UIViewController {
         let button = OnOffButton()
         button.setTitle("Done", for: .normal)
         button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
-//        button.setTitleColor(.black, for: .normal)
-        
         return button
     }()
     
@@ -53,6 +53,11 @@ class SetupViewController: UIViewController {
     
     @objc func doneButtonTapped() {
         self.dismiss(animated: true, completion: nil)
+        
+        let pickedTime = timePicker.countDownDuration
+        completionHandler?(pickedTime)
+//        print(pickedTime)
+        navigationController?.popToRootViewController(animated: true)
     }
 
 }

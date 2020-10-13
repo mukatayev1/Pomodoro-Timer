@@ -9,6 +9,10 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
+    var hours: Int = 0
+    var minutes: Int = 0
+    var seconds: Int = 0
+    
     let cellID = "cellID-123"
     
     let sectionNames = [
@@ -30,6 +34,8 @@ class SettingsViewController: UITableViewController {
         tableView.tableFooterView = UIView()
     
     }
+    
+    //MARK: - Setup for TableView
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sectionNames.count
@@ -102,10 +108,33 @@ class SettingsViewController: UITableViewController {
     var isActive = false
     
     @objc func workButtonTapped(sender: UIButton) {
-        print("Im being tapped")
+        
         let vc =  SetupViewController()
         self.present(vc, animated: true, completion: nil)
         
+        vc.completionHandler = { interval in
+            DispatchQueue.main.async {
+                self.didSetupTime(chosenInterval: interval)
+            }
+        }
+    }
+    
+    private func didSetupTime(chosenInterval: TimeInterval) {
+        let difference = chosenInterval
+        if difference > 0 {
+            let hrs: Int = Int(difference / 3600)
+            let remainder: Int = Int(difference) - (hrs*3600)
+            let mins: Int = remainder / 60
+            let secs: Int = Int(difference) - (hrs*3600) - (mins*60)
+            
+            hours = hrs
+            minutes = mins
+            seconds = secs
+//            timerVC.timeLabel.text = ("\(hrs) : \(mins) : \(secs)")
+            print("\(hrs) : \(mins) : \(secs)")
+        } else {
+            print("negative countdown")
+        }
     }
     
     @objc func switchSwitched(sender: UISwitch) {
