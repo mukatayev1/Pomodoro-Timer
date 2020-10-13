@@ -11,9 +11,9 @@ class TimerViewController: UIViewController {
     
     var hours: Int = 0
     var minutes: Int = 0
-    var seconds: Int = 0
+    var seconds: Int = 3600
     
-    var workingTimeLeftInSecs: Int = 1500
+//    var workingTimeLeftInSecs: Int = 10
     var isTimerRunning = false //This will be used to make sure only one timer is created at a time.
     var isOn = false
     var timer = Timer()
@@ -25,7 +25,7 @@ class TimerViewController: UIViewController {
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.text = "25 : 00"
+        label.text = "00 ; 00"
         label.textAlignment = .center
         label.textColor = UIColor.black
         label.font = UIFont.systemFont(ofSize: 40, weight: .thin)
@@ -115,6 +115,7 @@ class TimerViewController: UIViewController {
         textLabelSubviewed()
         activateCancelButton()
         activateButton()
+        timeLabel.text = converter(time: TimeInterval(seconds))
         
         //timer circle
         view.backgroundColor = UIColor(white: 0.94, alpha: 1.0)
@@ -198,48 +199,16 @@ class TimerViewController: UIViewController {
         resetButton()
     }
     
-    //MARK: - Func from Settings page
-    
-//    func randomFunction(sender: UIButton) {
-//
-//        let vc =  SetupViewController()
-//        self.present(vc, animated: true, completion: nil)
-//
-//        vc.completionHandler = { interval in
-//            DispatchQueue.main.async {
-//                self.didSetupTime(chosenInterval: interval)
-//            }
-//        }
-//    }
-//
-//    private func didSetupTime(chosenInterval: TimeInterval) {
-//        let difference = chosenInterval
-//        if difference > 0 {
-//            let hrs: Int = Int(difference / 3600)
-//            let remainder: Int = Int(difference) - (hrs*3600)
-//            let mins: Int = remainder / 60
-//            let secs: Int = Int(difference) - (hrs*3600) - (mins*60)
-//
-//            hours = hrs
-//            minutes = mins
-//            seconds = secs
-//            timeLabel.text = ("\(hrs) : \(mins) : \(secs)")
-//            print("\(hrs) : \(mins) : \(secs)")
-//        } else {
-//            print("negative countdown")
-//        }
-//    }
-    
     //MARK: - Functionality
     func startTimer() {
         print("Start process")
         isTimerRunning = true
         //        pulsating layer
         animatePulse()
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
         strokeIt.toValue = 1
-        strokeIt.duration = CFTimeInterval(workingTimeLeftInSecs)
+        strokeIt.duration = CFTimeInterval(seconds)
         strokeIt.isRemovedOnCompletion = false
         timeLeftShapeLayer.add(strokeIt, forKey: nil)
     }
@@ -257,7 +226,7 @@ class TimerViewController: UIViewController {
     func resumeTimer() {
         print("Resume the process")
         isTimerRunning = true
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
         let pausedTime = timeLeftShapeLayer.timeOffset
         timeLeftShapeLayer.speed = 1.0
@@ -272,36 +241,65 @@ class TimerViewController: UIViewController {
     func resetTimer() {
         print("Reset the process")
         timeLeftShapeLayer.removeAllAnimations()
+        pulseLayer.removeAllAnimations()
         
         timer.invalidate()
-        workingTimeLeftInSecs = 10    //Here we manually enter the restarting point for the seconds, but it would be wiser to make this a variable or constant.
+        seconds = 10    //Here we manually enter the restarting point for the seconds, but it would be wiser to make this a variable or constant.
 //        timeLabel.text = dataFromSetupVC
         
         isTimerRunning = false
     }
     
+    func converter(time: TimeInterval) -> String {
+        var timeConverted = ""
+        if seconds > 0 {
+            let hrs: Int = Int(seconds / 3600)
+            let remainder: Int = Int(seconds) - (hrs*3600)
+            let mins: Int = remainder / 60
+            let secs: Int = Int(seconds) - (hrs*3600) - (mins*60)
+            
+            hours = hrs
+            minutes = mins
+            seconds = secs
+            
+            if seconds >= 3600 {
+                timeConverted = String(format:"S%02i : %02i : %02i", hours, minutes, seconds)
+            } else {
+                timeConverted = String(format:"%02i : %02i", minutes, seconds)
+            }
+        }
+        return timeConverted
+    }
+
     //MARK: - @objc Functions
     
-    @objc func updateTime() {
-        if workingTimeLeftInSecs > 1 {
-            workingTimeLeftInSecs -= 1
-//            timeLabel.text = dataFromSetupVC
-            
-        } else {
+    @objc func updateTimer() {
+        if seconds > 0 {
+            //decrement seconds
+            seconds = seconds - 1
+        } else if minutes > 0 && seconds == 0 {
+            //decrement minutes
+            minutes = minutes - 1
+            seconds = 59
+        } else if hours > 0 && minutes == 0 && seconds == 0 {
+            //decrement hours
+            hours = hours - 1
+            minutes = 59
+            seconds = 59
+        } else if hours == 0 && minutes == 0 && seconds == 1{
             timeLabel.text = "00 : 00"
             timer.invalidate()
-            //            timeLabel.textColor = UIColor.green
-            //            workingTime = false
             resetButton()
             pulseLayer.removeAllAnimations()
-        }
+        } 
+//        timeLabel.text = converter(time: TimeInterval(seconds))
     }
     
-//    func updateTimer() {
+//    @objc func updateTimer() {
 //        if seconds > 0 {
 //            //decrement seconds
 //            seconds = seconds - 1
-//        } else if minutes > 0 && seconds == 0{
+//        } else if minutes > 0 && seconds == 0 {
 //            //decrement minutes
 //            minutes = minutes - 1
 //            seconds = 59
@@ -310,10 +308,25 @@ class TimerViewController: UIViewController {
 //            hours = hours - 1
 //            minutes = 59
 //            seconds = 59
+//        } else {
+//
+//            timeLabel.text = "00 : 00"
+//            timer.invalidate()
+//            resetButton()
+//            pulseLayer.removeAllAnimations()
 //        }
-////        updateLabel()
+//        updateLabel()
 //    }
     
+//    func updateLabel() {
+//
+//        if seconds > 3600 {
+//            timeLabel.text = "\(hours) : \(minutes) : \(seconds)"
+//        } else {
+//            timeLabel.text = "\(minutes) : \(seconds)"
+//        }
+//
+//    }
     
     
     

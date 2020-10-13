@@ -22,7 +22,7 @@ class SetupViewController: UIViewController {
         timePicker.translatesAutoresizingMaskIntoConstraints = false
         timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        timePicker.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        timePicker.widthAnchor.constraint(equalToConstant: view.frame.width - 65).isActive = true
     }
     
     let doneButton: UIButton = {
@@ -55,9 +55,7 @@ class SetupViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
         
         let pickedTime = timePicker.countDownDuration
-        completionHandler?(pickedTime)
-//        print(pickedTime)
         navigationController?.popToRootViewController(animated: true)
+        
     }
-
 }

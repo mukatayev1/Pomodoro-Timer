@@ -82,19 +82,10 @@ class SettingsViewController: UITableViewController {
         button.sizeToFit()
         button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.workButtonTapped)))
         button.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
-
-//        let button1 = UIButton(type: .custom)
-//        button1.setTitle("set resting timer", for: .normal)
-//        button1.backgroundColor = .clear
-//        button1.setTitleColor(UIColor.darkGray, for: .normal)
-//        button1.sizeToFit()
-//        button1.addTarget(self, action: #selector(restButtonTapped), for: .touchUpInside)
-//        button1.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
         
         switch indexPath.section {
         case 0: switch indexPath.row {
         case 0: cell.accessoryView = button
-//        case 1: cell.accessoryView = button1
         default: break
         }
         case 1: cell.accessoryView = mySwitch
@@ -109,32 +100,6 @@ class SettingsViewController: UITableViewController {
     
     @objc func workButtonTapped(sender: UIButton) {
         
-        let vc =  SetupViewController()
-        self.present(vc, animated: true, completion: nil)
-        
-        vc.completionHandler = { interval in
-            DispatchQueue.main.async {
-                self.didSetupTime(chosenInterval: interval)
-            }
-        }
-    }
-    
-    private func didSetupTime(chosenInterval: TimeInterval) {
-        let difference = chosenInterval
-        if difference > 0 {
-            let hrs: Int = Int(difference / 3600)
-            let remainder: Int = Int(difference) - (hrs*3600)
-            let mins: Int = remainder / 60
-            let secs: Int = Int(difference) - (hrs*3600) - (mins*60)
-            
-            hours = hrs
-            minutes = mins
-            seconds = secs
-//            timerVC.timeLabel.text = ("\(hrs) : \(mins) : \(secs)")
-            print("\(hrs) : \(mins) : \(secs)")
-        } else {
-            print("negative countdown")
-        }
     }
     
     @objc func switchSwitched(sender: UISwitch) {
