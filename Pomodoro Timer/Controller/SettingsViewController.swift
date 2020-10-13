@@ -9,8 +9,6 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
-    private var timePicker: UIPickerView!
-    
     let cellID = "cellID-123"
     
     let sectionNames = [
@@ -23,22 +21,19 @@ class SettingsViewController: UITableViewController {
         "  General"
     ]
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        timePicker = UIPickerView()
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
-        
+    
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sectionNames.count
     }
-    
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
@@ -102,20 +97,15 @@ class SettingsViewController: UITableViewController {
         
         return cell
     }
-    
-    //MARK: - Selectors
-    
-    var isActive = false
-    @objc func workButtonTapped(sender: UIButton) {
-        
-        print("Im being tapped")
-           
 
-    }
+    //MARK: - Selectors
+    var isActive = false
     
-    @objc func restButtonTapped(sender: UIButton) {
-        print("Im being tapped1")
-           
+    @objc func workButtonTapped(sender: UIButton) {
+        print("Im being tapped")
+        let vc =  SetupViewController()
+        self.present(vc, animated: true, completion: nil)
+        
     }
     
     @objc func switchSwitched(sender: UISwitch) {
