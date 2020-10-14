@@ -9,26 +9,23 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
-    var hours: Int = 0
-    var minutes: Int = 0
-    var seconds: Int = 0
-    
     let cellID = "cellID-123"
     
     let sectionNames = [
-        ["Working Inverval"],
+//        ["Working Inverval"],
         ["Dark Mode"]
     ]
     
     let sectionTitles = [
-        "  Set Timer",
-        "  General"
+        "  General",
+        "  Set Timer"
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = #colorLiteral(red: 0.8058375635, green: 0.8058375635, blue: 0.8058375635, alpha: 1)
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.8058375635, green: 0.8058375635, blue: 0.8058375635, alpha: 1)
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
@@ -45,7 +42,7 @@ class SettingsViewController: UITableViewController {
         let label = UILabel()
         
         label.text = sectionTitles[section]
-        label.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        label.backgroundColor = #colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1)
         label.textColor = .white
         label.font = UIFont(name: "AvenirNext - Bold", size: 20)
         
@@ -66,29 +63,30 @@ class SettingsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-    
+        
+        cell.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
         let name = sectionNames[indexPath.section][indexPath.row]
         cell.textLabel?.text = name
         cell.selectionStyle = .none
         
         let mySwitch = UISwitch()
-        mySwitch.onTintColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        mySwitch.onTintColor = #colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1)
         mySwitch.addTarget(self, action: #selector(switchSwitched), for: .valueChanged)
         
-        let button = UIButton(type: .custom)
-        button.setTitle("set working timer", for: .normal)
-        button.backgroundColor = .clear
-        button.setTitleColor(UIColor.darkGray, for: .normal)
-        button.sizeToFit()
-        button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.workButtonTapped)))
-        button.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
-        
+//        let button = UIButton(type: .custom)
+//        button.setTitle("set working timer", for: .normal)
+//        button.backgroundColor = .clear
+//        button.setTitleColor(UIColor.darkGray, for: .normal)
+//        button.sizeToFit()
+//        button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.workButtonTapped)))
+//        button.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
+//
         switch indexPath.section {
         case 0: switch indexPath.row {
-        case 0: cell.accessoryView = button
+        case 0: cell.accessoryView = mySwitch
         default: break
         }
-        case 1: cell.accessoryView = mySwitch
+//        case 1: cell.accessoryView = button
         default: break
         }
         
@@ -98,9 +96,9 @@ class SettingsViewController: UITableViewController {
     //MARK: - Selectors
     var isActive = false
     
-    @objc func workButtonTapped(sender: UIButton) {
-        
-    }
+//    @objc func workButtonTapped(sender: UIButton) {
+//
+//    }
     
     @objc func switchSwitched(sender: UISwitch) {
         if sender.isOn {

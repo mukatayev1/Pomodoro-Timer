@@ -7,13 +7,18 @@
 
 import UIKit
 
+protocol SetupViewControllerDelegate {
+    func didSetTimer(_ time: TimeInterval)
+}
+
 class SetupViewController: UIViewController {
     
-    public var completionHandler: ((TimeInterval) -> Void)?
+    var delegate: SetupViewControllerDelegate?
     
     let timePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .countDownTimer
+        picker.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
         return picker
     }()
     
@@ -22,7 +27,6 @@ class SetupViewController: UIViewController {
         timePicker.translatesAutoresizingMaskIntoConstraints = false
         timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        timePicker.widthAnchor.constraint(equalToConstant: view.frame.width - 65).isActive = true
     }
     
     let doneButton: UIButton = {
@@ -45,17 +49,16 @@ class SetupViewController: UIViewController {
         super.viewDidLoad()
         timerPickerSubviewed()
         doneButtonSubviewed()
-        view.backgroundColor = .white
+        view.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
     }
     
     
     //MARK: - selectors
-    
+    let timerVC = TimerViewController()
     @objc func doneButtonTapped() {
-        self.dismiss(animated: true, completion: nil)
-        
+//        dismiss(animated: true, completion: nil)
         let pickedTime = timePicker.countDownDuration
-        navigationController?.popToRootViewController(animated: true)
+        delegate?.didSetTimer(pickedTime)
         
     }
 }
