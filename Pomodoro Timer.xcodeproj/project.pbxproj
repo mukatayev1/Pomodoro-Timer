@@ -22,7 +22,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B65097E0A82D9F3F777A8D7 /* Pods-Pomodoro Timer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pomodoro Timer.debug.xcconfig"; path = "Target Support Files/Pods-Pomodoro Timer/Pods-Pomodoro Timer.debug.xcconfig"; sourceTree = "<group>"; };
 		2B0E1188252D772E00364264 /* Pomodoro Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pomodoro Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B0E118B252D772E00364264 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B0E118D252D772E00364264 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -36,7 +35,6 @@
 		2B0E11AB252D77E800364264 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2B0E11AE252D780400364264 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		2BEAFD6125347210004993D9 /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
-		7B21660924CDC0F9B6FE6C6A /* Pods-Pomodoro Timer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pomodoro Timer.release.xcconfig"; path = "Target Support Files/Pods-Pomodoro Timer/Pods-Pomodoro Timer.release.xcconfig"; sourceTree = "<group>"; };
 		90E6B8F7F73571E183082DD2 /* Pods_Pomodoro_Timer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pomodoro_Timer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -65,7 +63,6 @@
 			children = (
 				2B0E118A252D772E00364264 /* Pomodoro Timer */,
 				2B0E1189252D772E00364264 /* Products */,
-				B16D34DC2784161DBA2BFB40 /* Pods */,
 				104A1B65627EB67B29B65FE6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -119,15 +116,6 @@
 				2B0E11AE252D780400364264 /* TabBarController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		B16D34DC2784161DBA2BFB40 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				0B65097E0A82D9F3F777A8D7 /* Pods-Pomodoro Timer.debug.xcconfig */,
-				7B21660924CDC0F9B6FE6C6A /* Pods-Pomodoro Timer.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -395,7 +383,6 @@
 		};
 		2B0E119D252D772F00364264 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0B65097E0A82D9F3F777A8D7 /* Pods-Pomodoro Timer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -415,7 +402,6 @@
 		};
 		2B0E119E252D772F00364264 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7B21660924CDC0F9B6FE6C6A /* Pods-Pomodoro Timer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
