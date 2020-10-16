@@ -27,7 +27,7 @@ class TimerViewController: UIViewController {
     let timerLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = UIColor.black
+        label.textColor = UIColor.red
         label.font = UIFont.systemFont(ofSize: 40, weight: .thin)
         return label
     }()
