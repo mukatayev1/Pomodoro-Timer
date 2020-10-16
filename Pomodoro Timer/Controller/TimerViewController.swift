@@ -11,8 +11,8 @@ class TimerViewController: UIViewController {
     
     var hours: Int = 0
     var minutes: Int = 0
-    var seconds: Int = 0
-    var durationSeconds: Int = 0
+    var seconds: Int = 1500
+    var durationSeconds: Int = 1500
     
 //    var workingTimeLeftInSecs: Int = 10
     var isTimerRunning = false //This will be used to make sure only one timer is created at a time.
@@ -27,7 +27,7 @@ class TimerViewController: UIViewController {
     let timerLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = UIColor.red
+        label.textColor = Settings.sharedInstance.lightTimeTextColor
         label.font = UIFont.systemFont(ofSize: 40, weight: .thin)
         return label
     }()
@@ -73,7 +73,7 @@ class TimerViewController: UIViewController {
     func drawTimeLeftShape() {
         timeLeftShapeLayer.path = UIBezierPath(arcCenter: CGPoint(x: view.frame.midX , y: view.frame.midY), radius: 135, startAngle: -90.degreesToRadians, endAngle: 270.degreesToRadians, clockwise: true).cgPath
         
-        timeLeftShapeLayer.strokeColor = #colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1).cgColor
+        timeLeftShapeLayer.strokeColor = #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1).cgColor
         timeLeftShapeLayer.fillColor = UIColor.clear.cgColor
         timeLeftShapeLayer.lineWidth = 10
         timeLeftShapeLayer.lineCap = CAShapeLayerLineCap.round
@@ -81,12 +81,13 @@ class TimerViewController: UIViewController {
         view.layer.addSublayer(timeLeftShapeLayer)
     }
     
+    
     func drawPulsatingLayer() {
-        let circularPath = UIBezierPath(arcCenter: .zero, radius: 138, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
+        let circularPath = UIBezierPath(arcCenter: .zero, radius: 140, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
         pulseLayer.path = circularPath.cgPath
         pulseLayer.lineWidth = 2.0
         pulseLayer.fillColor = UIColor.clear.cgColor
-        pulseLayer.strokeColor = #colorLiteral(red: 0.6666666667, green: 0.2901960784, blue: 0.5568627451, alpha: 1).cgColor
+        pulseLayer.strokeColor = #colorLiteral(red: 1, green: 0.6470588235, blue: 0.6901960784, alpha: 1).cgColor
         pulseLayer.lineCap = .round
         pulseLayer.position = view.center
         view.layer.addSublayer(pulseLayer)
@@ -108,7 +109,7 @@ class TimerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.8058375635, green: 0.8058375635, blue: 0.8058375635, alpha: 1)
+        navigationController?.navigationBar.tintColor = Settings.sharedInstance.backgroundColor
         overrideUserInterfaceStyle = .light
         onOffButtonSubviewed()
         cancelButtonSubviewed()
@@ -118,10 +119,10 @@ class TimerViewController: UIViewController {
         activateCancelButton()
         activateButton()
         activateSetTimerButton()
-        timerLabel.text = String(seconds)
+        timerLabel.text = secondConverter(seconds)
         
         //timer circle
-        view.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
+        view.backgroundColor = Settings.sharedInstance.backgroundColor
         drawPulsatingLayer()
         drawBgShape()
         drawTimeLeftShape()
@@ -149,9 +150,9 @@ class TimerViewController: UIViewController {
             
             isOn.toggle()
             
-            let color = isOn ? #colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1): UIColor.clear
+            let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
             let title = isOn ? "Pause": "Resume"
-            let titleColor = isOn ? .white: #colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1)
+            let titleColor = isOn ? .white: #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
             
             onOffButton.setTitle(title, for: .normal)
             onOffButton.setTitleColor(titleColor, for: .normal)
@@ -159,9 +160,9 @@ class TimerViewController: UIViewController {
         } else {
             isOn.toggle()
             
-            let color = isOn ? #colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1): UIColor.clear
+            let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
             let title = isOn ? "Pause": "Resume"
-            let titleColor = isOn ? .white: #colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1)
+            let titleColor = isOn ? .white: #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
             let _: () = isOn ? resumeTimer():pauseTimer()
             
             onOffButton.setTitle(title, for: .normal)
@@ -178,7 +179,7 @@ class TimerViewController: UIViewController {
         isOn = false
         onOffButton.setTitle("Start", for: .normal)
         onOffButton.backgroundColor = .clear
-        onOffButton.setTitleColor(#colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1), for: .normal)
+        onOffButton.setTitleColor(#colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1), for: .normal)
     }
     
     //Cancel Button
@@ -239,9 +240,7 @@ class TimerViewController: UIViewController {
         
         strokeIt.fromValue = 0
         strokeIt.toValue = 1
-//        strokeIt.byValue = 1/seconds
         strokeIt.duration = CFTimeInterval(durationSeconds)
-        strokeIt.isRemovedOnCompletion = false
         timeLeftShapeLayer.add(strokeIt, forKey: nil)
     }
     
@@ -272,11 +271,13 @@ class TimerViewController: UIViewController {
     
     func resetTimer() {
         print("Reset the process")
+        timeLeftShapeLayer.strokeEnd = 0
         timeLeftShapeLayer.removeAllAnimations()
         pulseLayer.removeAllAnimations()
-        
+        seconds = 1500
+        durationSeconds = 1500
         timer.invalidate()
-        
+        timerLabel.text = secondConverter(durationSeconds)
         isTimerRunning = false
     }
 
@@ -293,8 +294,12 @@ class TimerViewController: UIViewController {
             hours = hours - 1
             minutes = 59
             seconds = 59
+        } else {
+            resetButton()
+            resetTimer()
         }
-        timerLabel.text = secondConverter(seconds)
+        updateTimerLabel()
+        
     }
     
     func secondConverter(_ secondsToConvert: Int) -> String {
@@ -316,7 +321,14 @@ class TimerViewController: UIViewController {
         }
         
         return convertedTimer
-//        print(convertedTimer)
+    }
+    
+    func updateTimerLabel() {
+        if durationSeconds > 3599 {
+            timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
+        } else {
+            timerLabel.text = String(format: "%02d : %02d", minutes, seconds)
+        }
     }
     
     func timeLabelUpdateFromDelegate(time: TimeInterval) {

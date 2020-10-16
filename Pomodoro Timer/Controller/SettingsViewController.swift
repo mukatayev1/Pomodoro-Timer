@@ -23,9 +23,9 @@ class SettingsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = #colorLiteral(red: 0.8058375635, green: 0.8058375635, blue: 0.8058375635, alpha: 1)
+        view.backgroundColor = Settings.sharedInstance.backgroundColor
+        
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.8058375635, green: 0.8058375635, blue: 0.8058375635, alpha: 1)
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
@@ -42,7 +42,7 @@ class SettingsViewController: UITableViewController {
         let label = UILabel()
         
         label.text = sectionTitles[section]
-        label.backgroundColor = #colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1)
+        label.backgroundColor = #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
         label.textColor = .white
         label.font = UIFont(name: "AvenirNext - Bold", size: 20)
         
@@ -64,13 +64,13 @@ class SettingsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
-        cell.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
+        cell.backgroundColor = Settings.sharedInstance.backgroundColor
         let name = sectionNames[indexPath.section][indexPath.row]
         cell.textLabel?.text = name
         cell.selectionStyle = .none
         
         let mySwitch = UISwitch()
-        mySwitch.onTintColor = #colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1)
+        mySwitch.onTintColor = #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
         mySwitch.addTarget(self, action: #selector(switchSwitched), for: .valueChanged)
         
 //        let button = UIButton(type: .custom)
