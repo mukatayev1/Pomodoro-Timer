@@ -18,7 +18,7 @@ class SetupViewController: UIViewController {
     let timePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .countDownTimer
-        picker.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
+        picker.backgroundColor = ModeTheme.light.backgroundColor
         return picker
     }()
     
@@ -49,16 +49,39 @@ class SetupViewController: UIViewController {
         super.viewDidLoad()
         timerPickerSubviewed()
         doneButtonSubviewed()
-        view.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
+        view.backgroundColor = ModeTheme.light.backgroundColor
+        
+        setupDarkMode()
+    }
+    
+    //MARK: - Enabling Dark Mode
+    
+    var darkMode = false
+    func setupDarkMode() {
+        darkMode = true
+        //notification for Dark Mode settings
+        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: Notification.Name("darkMode"), object: nil)
     }
     
     
     //MARK: - selectors
+    
     let timerVC = TimerViewController()
     @objc func doneButtonTapped() {
 //        dismiss(animated: true, completion: nil)
         let pickedTime = timePicker.countDownDuration
         delegate?.didSetTimer(pickedTime)
         
+    }
+    
+    @objc func enableDarkMode() {
+        //user defaults for going back to light mode.
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        let theme = isDarkMode ? ModeTheme.dark : ModeTheme.light
+        
+        view.backgroundColor = theme.backgroundColor
+//        navigationController?.navigationBar.barTintColor = theme.backgroundColor
+ 
     }
 }

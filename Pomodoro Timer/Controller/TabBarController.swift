@@ -16,7 +16,6 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBar.tintColor = #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
-//        self.tabBar.barTintColor = .pink
         let nav1 = generateNavController(vc: TimerViewController(), title: "Timer", image: timerImage!, showTitle: false)
         let nav2 = generateNavController(vc: SettingsViewController(), title: "Settings", image: gearImage!, showTitle: true)
         viewControllers = [nav1, nav2]

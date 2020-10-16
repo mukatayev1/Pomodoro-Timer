@@ -21,13 +21,13 @@ class OnOffButton: UIButton {
     
     func initButton() {
         layer.borderWidth = 2.0
-        layer.borderColor = #colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1).cgColor
+        layer.borderColor = #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1).cgColor
         titleLabel?.font = UIFont(name: "AvenirNext - DemiBold", size: 20)
         layer.cornerRadius = 25
         layer.borderWidth = 1.0
         setTitle("Start", for: .normal)
         backgroundColor = .clear
-        setTitleColor(#colorLiteral(red: 0.4352941176, green: 0.2901960784, blue: 0.5568627451, alpha: 1), for: .normal)
+        setTitleColor(#colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1) , for: .normal)
     }
     
 }

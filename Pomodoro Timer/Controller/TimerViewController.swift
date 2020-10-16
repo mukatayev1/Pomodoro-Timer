@@ -27,7 +27,7 @@ class TimerViewController: UIViewController {
     let timerLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = Settings.sharedInstance.lightTimeTextColor
+        label.textColor = ModeTheme.light.textColor
         label.font = UIFont.systemFont(ofSize: 40, weight: .thin)
         return label
     }()
@@ -109,7 +109,7 @@ class TimerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationController?.navigationBar.tintColor = Settings.sharedInstance.backgroundColor
+        navigationController?.navigationBar.tintColor = ModeTheme.light.backgroundColor
         overrideUserInterfaceStyle = .light
         onOffButtonSubviewed()
         cancelButtonSubviewed()
@@ -122,12 +122,40 @@ class TimerViewController: UIViewController {
         timerLabel.text = secondConverter(seconds)
         
         //timer circle
-        view.backgroundColor = Settings.sharedInstance.backgroundColor
+        view.backgroundColor = ModeTheme.light.backgroundColor
         drawPulsatingLayer()
         drawBgShape()
         drawTimeLeftShape()
         drawPulsatingLayer()
         
+        setupDarkMode()
+    }
+    
+    //MARK: - Enabling Dark Mode
+    
+    var darkMode = false
+    func setupDarkMode() {
+        darkMode = true
+        
+        //notification for Dark Mode settings
+        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: Notification.Name("darkMode"), object: nil)
+    }
+    
+    @objc func enableDarkMode() {
+        //user defaults for going back to light mode.
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        let theme = isDarkMode ? ModeTheme.dark : ModeTheme.light
+        
+        view.backgroundColor = theme.backgroundColor
+        navigationController?.navigationBar.barTintColor = theme.backgroundColor
+        timerLabel.textColor = theme.textColor
+        onOffButton.setTitleColor(theme.textColor, for: .normal)
+        cancelButton.setTitleColor(theme.textColor, for: .normal)
+        setTimerButton.setTitleColor(theme.textColor, for: .normal)
+        
+        bgShapeLayer.strokeColor = isDarkMode ? #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1).cgColor : UIColor.white.cgColor
+ 
     }
     
     //MARK: - Buttons creation
@@ -150,24 +178,46 @@ class TimerViewController: UIViewController {
             
             isOn.toggle()
             
-            let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
-            let title = isOn ? "Pause": "Resume"
-            let titleColor = isOn ? .white: #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
-            
-            onOffButton.setTitle(title, for: .normal)
-            onOffButton.setTitleColor(titleColor, for: .normal)
-            onOffButton.backgroundColor = color
+            if darkMode == false {
+                let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
+                let title = isOn ? "Pause": "Resume"
+                let titleColor = isOn ? .white: #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
+                
+                onOffButton.setTitle(title, for: .normal)
+                onOffButton.setTitleColor(titleColor, for: .normal)
+                onOffButton.backgroundColor = color
+            } else {
+                let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
+                let title = isOn ? "Pause": "Resume"
+                let titleColor = isOn ? .white: UIColor.white
+                
+                onOffButton.setTitle(title, for: .normal)
+                onOffButton.setTitleColor(titleColor, for: .normal)
+                onOffButton.backgroundColor = color
+            }
         } else {
             isOn.toggle()
             
-            let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
-            let title = isOn ? "Pause": "Resume"
-            let titleColor = isOn ? .white: #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
-            let _: () = isOn ? resumeTimer():pauseTimer()
             
-            onOffButton.setTitle(title, for: .normal)
-            onOffButton.setTitleColor(titleColor, for: .normal)
-            onOffButton.backgroundColor = color
+            if darkMode == false {
+                let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
+                let title = isOn ? "Pause": "Resume"
+                let titleColor = isOn ? .white: #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
+                let _: () = isOn ? resumeTimer():pauseTimer()
+                
+                onOffButton.setTitle(title, for: .normal)
+                onOffButton.setTitleColor(titleColor, for: .normal)
+                onOffButton.backgroundColor = color
+            } else {
+                let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
+                let title = isOn ? "Pause": "Resume"
+                let titleColor = isOn ? .white: UIColor.white
+                let _: () = isOn ? resumeTimer():pauseTimer()
+                
+                onOffButton.setTitle(title, for: .normal)
+                onOffButton.setTitleColor(titleColor, for: .normal)
+                onOffButton.backgroundColor = color
+            }
         }
     }
     
@@ -179,7 +229,13 @@ class TimerViewController: UIViewController {
         isOn = false
         onOffButton.setTitle("Start", for: .normal)
         onOffButton.backgroundColor = .clear
-        onOffButton.setTitleColor(#colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1), for: .normal)
+        
+        if darkMode == false {
+            onOffButton.setTitleColor(.black, for: .normal)
+        } else {
+            onOffButton.setTitleColor(.white, for: .normal)
+        }
+        
     }
     
     //Cancel Button
@@ -278,6 +334,7 @@ class TimerViewController: UIViewController {
         durationSeconds = 1500
         timer.invalidate()
         timerLabel.text = secondConverter(durationSeconds)
+        timeLeftShapeLayer.speed = 1.0
         isTimerRunning = false
     }
 

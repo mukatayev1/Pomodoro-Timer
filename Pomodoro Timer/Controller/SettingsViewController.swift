@@ -23,7 +23,7 @@ class SettingsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Settings.sharedInstance.backgroundColor
+        view.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -62,24 +62,17 @@ class SettingsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
-        cell.backgroundColor = Settings.sharedInstance.backgroundColor
         let name = sectionNames[indexPath.section][indexPath.row]
         cell.textLabel?.text = name
         cell.selectionStyle = .none
+        cell.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         
         let mySwitch = UISwitch()
         mySwitch.onTintColor = #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
         mySwitch.addTarget(self, action: #selector(switchSwitched), for: .valueChanged)
-        
-//        let button = UIButton(type: .custom)
-//        button.setTitle("set working timer", for: .normal)
-//        button.backgroundColor = .clear
-//        button.setTitleColor(UIColor.darkGray, for: .normal)
-//        button.sizeToFit()
-//        button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.workButtonTapped)))
-//        button.titleLabel?.font = UIFont(name: "AvenirNext", size: 10)
 //
         switch indexPath.section {
         case 0: switch indexPath.row {
@@ -92,20 +85,28 @@ class SettingsViewController: UITableViewController {
         
         return cell
     }
-
+    
+    
     //MARK: - Selectors
     var isActive = false
     
-//    @objc func workButtonTapped(sender: UIButton) {
-//
-//    }
-    
     @objc func switchSwitched(sender: UISwitch) {
-        if sender.isOn {
-            print("turned on")
-        } else {
-            print("turned off")
-        }
+        
+        UserDefaults.standard.set(sender.isOn, forKey: "isDarkMode")
+        
+        let currentMode = sender.isOn ? ModeTheme.dark : ModeTheme.light
+        
+        //            print("turned on")
+        NotificationCenter.default.post(name: Notification.Name("darkMode"), object: nil)
+        
+        view.backgroundColor = currentMode.backgroundColor
+        tableView.backgroundColor = currentMode.backgroundColor
+        navigationController?.navigationBar.barTintColor = currentMode.backgroundColor
+        navigationController?.tabBarController?.tabBar.barTintColor = currentMode.backgroundColor
+        navigationController?.tabBarController?.tabBar.tintColor = sender.isOn ? #colorLiteral(red: 1, green: 0.6470588235, blue: 0.6901960784, alpha: 1) : #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
+        
+        let textAttributes = [NSAttributedString.Key.foregroundColor: currentMode.textColor]
+        navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
     }
     
 }
