@@ -132,17 +132,13 @@ class TimerViewController: UIViewController {
     }
     
     //MARK: - Enabling Dark Mode
-    
-    var darkMode = false
+
     func setupDarkMode() {
-        darkMode = true
-        
         //notification for Dark Mode settings
         ModeThemeManager.addDarkModeObserver(to: self, selector: #selector(enableDarkMode))
     }
     
     @objc func enableDarkMode() {
-        
         
         let currentTheme = ModeThemeManager.currentTheme
         
@@ -174,51 +170,32 @@ class TimerViewController: UIViewController {
     }
     
     @objc func OnOffbuttonPressed() {
+        onOffButton.pulsate()
         if onOffButton.currentTitle == "Start" &&  isTimerRunning == false {
             startTimer()
             
             isOn.toggle()
             
-            if darkMode == false {
-                let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
+                let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1) : UIColor.clear
                 let title = isOn ? "Pause": "Resume"
-                let titleColor = isOn ? .white: #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
+                let titleColor = isOn ? .white: UIColor.black
                 
                 onOffButton.setTitle(title, for: .normal)
                 onOffButton.setTitleColor(titleColor, for: .normal)
                 onOffButton.backgroundColor = color
-            } else {
-                let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
-                let title = isOn ? "Pause": "Resume"
-                let titleColor = isOn ? .white: UIColor.white
-                
-                onOffButton.setTitle(title, for: .normal)
-                onOffButton.setTitleColor(titleColor, for: .normal)
-                onOffButton.backgroundColor = color
-            }
+            
         } else {
             isOn.toggle()
             
-            
-            if darkMode == false {
-                let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
+                let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1) : UIColor.clear
                 let title = isOn ? "Pause": "Resume"
-                let titleColor = isOn ? .white: #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1)
+                let titleColor = isOn ? .white: UIColor.black
                 let _: () = isOn ? resumeTimer():pauseTimer()
                 
                 onOffButton.setTitle(title, for: .normal)
                 onOffButton.setTitleColor(titleColor, for: .normal)
                 onOffButton.backgroundColor = color
-            } else {
-                let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1): UIColor.clear
-                let title = isOn ? "Pause": "Resume"
-                let titleColor = isOn ? .white: UIColor.white
-                let _: () = isOn ? resumeTimer():pauseTimer()
-                
-                onOffButton.setTitle(title, for: .normal)
-                onOffButton.setTitleColor(titleColor, for: .normal)
-                onOffButton.backgroundColor = color
-            }
+
         }
     }
     
@@ -231,11 +208,7 @@ class TimerViewController: UIViewController {
         onOffButton.setTitle("Start", for: .normal)
         onOffButton.backgroundColor = .clear
         
-        if darkMode == false {
-            onOffButton.setTitleColor(.black, for: .normal)
-        } else {
-            onOffButton.setTitleColor(.white, for: .normal)
-        }
+        onOffButton.setTitleColor(.black , for: .normal)
         
     }
     
@@ -258,6 +231,7 @@ class TimerViewController: UIViewController {
     @objc func cancelButtonPressed() {
         resetTimer()
         resetButton()
+        cancelButton.pulsate()
     }
     
     //Set Timer Button
@@ -278,6 +252,8 @@ class TimerViewController: UIViewController {
     }
     
     @objc func SetTimerButtonPressed() {
+        
+        setTimerButton.pulsate()
         //delegate
         let controller = SetupViewController()
         controller.delegate = self
@@ -404,7 +380,6 @@ extension TimerViewController: SetupViewControllerDelegate {
     func didSetTimer(_ time: TimeInterval) {
         self.dismiss(animated: true) {
             self.timeLabelUpdateFromDelegate(time: time)
-//            self.converter(secondsToConvert self.durationSeconds)
         }
     }
 }

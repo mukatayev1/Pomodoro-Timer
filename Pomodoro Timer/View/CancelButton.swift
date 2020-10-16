@@ -14,11 +14,13 @@ class CancelButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initButton()
+        setShadow()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initButton()
+        setShadow()
     }
     
     func initButton() {
@@ -28,7 +30,17 @@ class CancelButton: UIButton {
         layer.cornerRadius = 25
         layer.borderWidth = 1.0
         setTitle("Cancel", for: .normal)
-        setTitleColor(#colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1) , for: .normal)
+        setTitleColor(.black , for: .normal)
+    }
+    
+    private func setShadow() {
+        layer.shadowColor   = UIColor.black.cgColor
+        layer.shadowOffset  = CGSize(width: 0, height: 0.6)
+        layer.shadowRadius  = 8
+        layer.shadowOpacity = 0.5
+        clipsToBounds       = true
+        layer.masksToBounds = false
+        
     }
     
 }
