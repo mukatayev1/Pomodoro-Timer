@@ -18,6 +18,7 @@
 		2B0E11A7252D779500364264 /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11A6252D779500364264 /* CancelButton.swift */; };
 		2B0E11AC252D77E800364264 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11AB252D77E800364264 /* SettingsViewController.swift */; };
 		2B0E11AF252D780400364264 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E11AE252D780400364264 /* TabBarController.swift */; };
+		2B3ABCF52539D0DB00D3B18F /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3ABCF42539D0DB00D3B18F /* CustomCell.swift */; };
 		2B814CC72539A61300B28AD1 /* ModeTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B814CC62539A61200B28AD1 /* ModeTheme.swift */; };
 		2B814CD12539CBBC00B28AD1 /* ModeThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B814CD02539CBBC00B28AD1 /* ModeThemeManager.swift */; };
 		2BEAFD6225347210004993D9 /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEAFD6125347210004993D9 /* SetupViewController.swift */; };
@@ -36,6 +37,7 @@
 		2B0E11A6252D779500364264 /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
 		2B0E11AB252D77E800364264 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2B0E11AE252D780400364264 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		2B3ABCF42539D0DB00D3B18F /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		2B814CC62539A61200B28AD1 /* ModeTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeTheme.swift; sourceTree = "<group>"; };
 		2B814CD02539CBBC00B28AD1 /* ModeThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeThemeManager.swift; sourceTree = "<group>"; };
 		2BEAFD6125347210004993D9 /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			children = (
 				2B0E11A3252D777F00364264 /* OnOffButton.swift */,
 				2B0E11A6252D779500364264 /* CancelButton.swift */,
+				2B3ABCF42539D0DB00D3B18F /* CustomCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 			files = (
 				2B0E11A4252D777F00364264 /* OnOffButton.swift in Sources */,
 				2B0E1190252D772E00364264 /* TimerViewController.swift in Sources */,
+				2B3ABCF52539D0DB00D3B18F /* CustomCell.swift in Sources */,
 				2B0E118C252D772E00364264 /* AppDelegate.swift in Sources */,
 				2B814CC72539A61300B28AD1 /* ModeTheme.swift in Sources */,
 				2B0E118E252D772E00364264 /* SceneDelegate.swift in Sources */,

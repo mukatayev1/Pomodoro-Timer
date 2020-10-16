@@ -20,10 +20,20 @@ struct ModeThemeManager {
     
     static func enableDarkMode() {
         UserDefaults.standard.set(true, forKey: isDarkModeKey)
-        NotificationCenter.default.post(name: .darMode, object: nil)
+        NotificationCenter.default.post(name: .darkMode, object: nil)
     }
+    
+    static func disableDarkMode() {
+        UserDefaults.standard.set(false, forKey: isDarkModeKey)
+        NotificationCenter.default.post(name: .darkMode, object: nil)
+    }
+    
+    static func addDarkModeObserver(to observer: Any, selector: Selector) {
+        NotificationCenter.default.addObserver(observer, selector: selector, name: .darkMode, object: nil)
+    }
+    
 }
 
 extension Notification.Name {
-    static let darMode = Notification.Name("darkMode")
+    static let darkMode = Notification.Name("darkMode")
 }

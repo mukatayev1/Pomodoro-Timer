@@ -27,7 +27,7 @@ class SettingsViewController: UITableViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        tableView.register(CustomCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
     
     }
@@ -92,12 +92,8 @@ class SettingsViewController: UITableViewController {
     
     @objc func switchSwitched(sender: UISwitch) {
         
-        UserDefaults.standard.set(sender.isOn, forKey: "isDarkMode")
-        
-        let currentMode = sender.isOn ? ModeTheme.dark : ModeTheme.light
-        
-        //            print("turned on")
-        NotificationCenter.default.post(name: Notification.Name("darkMode"), object: nil)
+        sender.isOn ? ModeThemeManager.enableDarkMode() : ModeThemeManager.disableDarkMode()
+        let currentMode = ModeThemeManager.currentTheme
         
         view.backgroundColor = currentMode.backgroundColor
         tableView.backgroundColor = currentMode.backgroundColor

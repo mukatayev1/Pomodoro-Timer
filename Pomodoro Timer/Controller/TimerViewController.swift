@@ -138,22 +138,23 @@ class TimerViewController: UIViewController {
         darkMode = true
         
         //notification for Dark Mode settings
-        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: Notification.Name("darkMode"), object: nil)
+        ModeThemeManager.addDarkModeObserver(to: self, selector: #selector(enableDarkMode))
     }
     
     @objc func enableDarkMode() {
+        
+        
+        let currentTheme = ModeThemeManager.currentTheme
+        
+        view.backgroundColor = currentTheme.backgroundColor
+        navigationController?.navigationBar.barTintColor = currentTheme.backgroundColor
+        timerLabel.textColor = currentTheme.textColor
+        onOffButton.setTitleColor(currentTheme.textColor, for: .normal)
+        cancelButton.setTitleColor(currentTheme.textColor, for: .normal)
+        setTimerButton.setTitleColor(currentTheme.textColor, for: .normal)
+        
         //user defaults for going back to light mode.
         let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
-        
-        let theme = isDarkMode ? ModeTheme.dark : ModeTheme.light
-        
-        view.backgroundColor = theme.backgroundColor
-        navigationController?.navigationBar.barTintColor = theme.backgroundColor
-        timerLabel.textColor = theme.textColor
-        onOffButton.setTitleColor(theme.textColor, for: .normal)
-        cancelButton.setTitleColor(theme.textColor, for: .normal)
-        setTimerButton.setTitleColor(theme.textColor, for: .normal)
-        
         bgShapeLayer.strokeColor = isDarkMode ? #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1).cgColor : UIColor.white.cgColor
  
     }
