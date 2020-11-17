@@ -9,12 +9,13 @@ import UIKit
 
 class TimerViewController: UIViewController {
     
+//MARK: - Properties
+    
     var hours: Int = 0
     var minutes: Int = 0
     var seconds: Int = 1500
     var durationSeconds: Int = 1500
     
-//    var workingTimeLeftInSecs: Int = 10
     var isTimerRunning = false //This will be used to make sure only one timer is created at a time.
     var isOn = false
     var timer = Timer()
@@ -32,16 +33,6 @@ class TimerViewController: UIViewController {
         return label
     }()
     
-    
-    func timeLabelSubviewed() {
-        view.addSubview(timerLabel)
-        timerLabel.translatesAutoresizingMaskIntoConstraints = false
-        timerLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        timerLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        timerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        timerLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    }
-    
     let textLabel: UILabel = {
         let label = UILabel()
         label.text = "#working time"
@@ -51,6 +42,77 @@ class TimerViewController: UIViewController {
         //        label.font = UIFont(name: "AvenirNext", size: 36)
         return label
     }()
+    
+    var onOffButton: OnOffButton = {
+       let button = OnOffButton(type: .system)
+        button.addTarget(self, action: #selector(OnOffbuttonPressed), for: .touchUpInside)
+        return button
+    }()
+    var cancelButton: CancelButton = {
+        let button = CancelButton(type: .system)
+         button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+         return button
+    }()
+    
+    var setTimerButton: OnOffButton = {
+        let button = OnOffButton(type: .system)
+         button.addTarget(self, action: #selector(SetTimerButtonPressed), for: .touchUpInside)
+         return button
+    }()
+    
+    //MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        navigationController?.navigationBar.tintColor = ModeTheme.light.backgroundColor
+        overrideUserInterfaceStyle = .light
+        onOffButtonSubviewed()
+        cancelButtonSubviewed()
+        setTimerButtonSubviewed()
+        timeLabelSubviewed()
+        textLabelSubviewed()
+        timerLabel.text = secondConverter(seconds)
+        
+        //timer circle
+        view.backgroundColor = ModeTheme.light.backgroundColor
+        drawPulsatingLayer()
+        drawBgShape()
+        drawTimeLeftShape()
+        drawPulsatingLayer()
+        
+        setupDarkMode()
+    }
+    
+    //MARK: - Helpers
+    
+    func setupDarkMode() {
+        //notification for Dark Mode settings
+        ModeThemeManager.addDarkModeObserver(to: self, selector: #selector(enableDarkMode))
+    }
+    
+    func animatePulse() {
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.duration = 2.0
+        animation.fromValue = 1.0
+        animation.toValue = 1.2
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        animation.repeatCount = Float.infinity
+        animation.autoreverses = true
+        animation.isRemovedOnCompletion = false
+        pulseLayer.add(animation, forKey: "scale")
+    }
+    
+    //MARK: - Subviewing
+    
+    func timeLabelSubviewed() {
+        view.addSubview(timerLabel)
+        timerLabel.translatesAutoresizingMaskIntoConstraints = false
+        timerLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        timerLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        timerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        timerLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
     
     func textLabelSubviewed() {
         view.addSubview(textLabel)
@@ -81,7 +143,6 @@ class TimerViewController: UIViewController {
         view.layer.addSublayer(timeLeftShapeLayer)
     }
     
-    
     func drawPulsatingLayer() {
         let circularPath = UIBezierPath(arcCenter: .zero, radius: 140, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
         pulseLayer.path = circularPath.cgPath
@@ -93,53 +154,37 @@ class TimerViewController: UIViewController {
         view.layer.addSublayer(pulseLayer)
     }
     
-    func animatePulse() {
-        let animation = CABasicAnimation(keyPath: "transform.scale")
-        animation.duration = 2.0
-        animation.fromValue = 1.0
-        animation.toValue = 1.2
-        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-        animation.repeatCount = Float.infinity
-        animation.autoreverses = true
-        animation.isRemovedOnCompletion = false
-        pulseLayer.add(animation, forKey: "scale")
+    func onOffButtonSubviewed() {
+        view.addSubview(onOffButton)
+        onOffButton.translatesAutoresizingMaskIntoConstraints = false
+        onOffButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        onOffButton.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        onOffButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        onOffButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90).isActive = true
     }
     
-    //MARK: - ViewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        navigationController?.navigationBar.tintColor = ModeTheme.light.backgroundColor
-        overrideUserInterfaceStyle = .light
-        onOffButtonSubviewed()
-        cancelButtonSubviewed()
-        setTimerButtonSubviewed()
-        timeLabelSubviewed()
-        textLabelSubviewed()
-        activateCancelButton()
-        activateButton()
-        activateSetTimerButton()
-        timerLabel.text = secondConverter(seconds)
-        
-        //timer circle
-        view.backgroundColor = ModeTheme.light.backgroundColor
-        drawPulsatingLayer()
-        drawBgShape()
-        drawTimeLeftShape()
-        drawPulsatingLayer()
-        
-        setupDarkMode()
+    func cancelButtonSubviewed() {
+        view.addSubview(cancelButton)
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        cancelButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        cancelButton.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        cancelButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cancelButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30).isActive = true
     }
     
-    //MARK: - Enabling Dark Mode
-
-    func setupDarkMode() {
-        //notification for Dark Mode settings
-        ModeThemeManager.addDarkModeObserver(to: self, selector: #selector(enableDarkMode))
+    func setTimerButtonSubviewed() {
+        view.addSubview(setTimerButton)
+        setTimerButton.setTitle("Set Timer", for: .normal)
+        setTimerButton.translatesAutoresizingMaskIntoConstraints = false
+        setTimerButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        setTimerButton.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        setTimerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        setTimerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 120).isActive = true
     }
+    
+    //MARK: - Selectors
     
     @objc func enableDarkMode() {
-        
         let currentTheme = ModeThemeManager.currentTheme
         
         view.backgroundColor = currentTheme.backgroundColor
@@ -152,25 +197,9 @@ class TimerViewController: UIViewController {
         //user defaults for going back to light mode.
         let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
         bgShapeLayer.strokeColor = isDarkMode ? #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1).cgColor : UIColor.white.cgColor
- 
-    }
-    
-    //MARK: - Buttons creation
-    
-    //Start, Resume, Pause Button
-    var onOffButton = OnOffButton()
-    
-    func onOffButtonSubviewed() {
-        view.addSubview(onOffButton)
-        onOffButton.translatesAutoresizingMaskIntoConstraints = false
-        onOffButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        onOffButton.widthAnchor.constraint(equalToConstant: 280).isActive = true
-        onOffButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        onOffButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90).isActive = true
     }
     
     @objc func OnOffbuttonPressed() {
-        onOffButton.pulsate()
         if onOffButton.currentTitle == "Start" &&  isTimerRunning == false {
             startTimer()
             
@@ -186,7 +215,6 @@ class TimerViewController: UIViewController {
             
         } else {
             isOn.toggle()
-            
                 let color = isOn ? #colorLiteral(red: 0.4156862745, green: 0.09803921569, blue: 0.4901960784, alpha: 1) : UIColor.clear
                 let title = isOn ? "Pause": "Resume"
                 let titleColor = isOn ? .white: UIColor.black
@@ -195,71 +223,45 @@ class TimerViewController: UIViewController {
                 onOffButton.setTitle(title, for: .normal)
                 onOffButton.setTitleColor(titleColor, for: .normal)
                 onOffButton.backgroundColor = color
-
         }
     }
     
-    func activateButton() {
-        onOffButton.addTarget(self, action: #selector(OnOffbuttonPressed), for: .touchUpInside)
+    @objc func updateTimer() {
+        if seconds > 0 {
+            //decrement seconds
+            seconds = seconds - 1
+        } else if minutes > 0 && seconds == 0 {
+            minutes = minutes - 1
+            seconds = 59
+        } else if hours > 0 && minutes == 0 && seconds == 0 {
+            hours = hours - 1
+            minutes = 59
+            seconds = 59
+        } else {
+            resetButton()
+            resetTimer()
+        }
+        updateTimerLabel()
+    }
+    
+    @objc func cancelButtonPressed() {
+        resetTimer()
+        resetButton()
+    }
+    
+    @objc func SetTimerButtonPressed() {
+        //delegate
+        let controller = SetupViewController()
+        controller.delegate = self
+        
+        self.present(controller, animated: true, completion: nil)
     }
     
     func resetButton() {
         isOn = false
         onOffButton.setTitle("Start", for: .normal)
         onOffButton.backgroundColor = .clear
-        
         onOffButton.setTitleColor(.black , for: .normal)
-        
-    }
-    
-    //Cancel Button
-    var cancelButton = CancelButton()
-    
-    func cancelButtonSubviewed() {
-        view.addSubview(cancelButton)
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        cancelButton.widthAnchor.constraint(equalToConstant: 280).isActive = true
-        cancelButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cancelButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30).isActive = true
-    }
-    
-    func activateCancelButton() {
-        cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
-    }
-    
-    @objc func cancelButtonPressed() {
-        resetTimer()
-        resetButton()
-        cancelButton.pulsate()
-    }
-    
-    //Set Timer Button
-    var setTimerButton = OnOffButton()
-    
-    func setTimerButtonSubviewed() {
-        view.addSubview(setTimerButton)
-        setTimerButton.setTitle("Set Timer", for: .normal)
-        setTimerButton.translatesAutoresizingMaskIntoConstraints = false
-        setTimerButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        setTimerButton.widthAnchor.constraint(equalToConstant: 280).isActive = true
-        setTimerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        setTimerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 120).isActive = true
-    }
-    
-    func activateSetTimerButton() {
-        setTimerButton.addTarget(self, action: #selector(SetTimerButtonPressed), for: .touchUpInside)
-    }
-    
-    @objc func SetTimerButtonPressed() {
-        
-        setTimerButton.pulsate()
-        //delegate
-        let controller = SetupViewController()
-        controller.delegate = self
-        
-        self.present(controller, animated: true, completion: nil)
-        
     }
     
     //MARK: - Functionality
@@ -314,27 +316,8 @@ class TimerViewController: UIViewController {
         timeLeftShapeLayer.speed = 1.0
         isTimerRunning = false
     }
-
-    //MARK: - @objc Functions
     
-    @objc func updateTimer() {
-        if seconds > 0 {
-            //decrement seconds
-            seconds = seconds - 1
-        } else if minutes > 0 && seconds == 0 {
-            minutes = minutes - 1
-            seconds = 59
-        } else if hours > 0 && minutes == 0 && seconds == 0 {
-            hours = hours - 1
-            minutes = 59
-            seconds = 59
-        } else {
-            resetButton()
-            resetTimer()
-        }
-        updateTimerLabel()
-        
-    }
+    //MARK: - Functionality
     
     func secondConverter(_ secondsToConvert: Int) -> String {
         
@@ -368,10 +351,8 @@ class TimerViewController: UIViewController {
     func timeLabelUpdateFromDelegate(time: TimeInterval) {
         durationSeconds = Int(time)
         timerLabel.text = secondConverter(durationSeconds)
-        
     }
-    
-    
+
 }
 
 //MARK: - Extensions

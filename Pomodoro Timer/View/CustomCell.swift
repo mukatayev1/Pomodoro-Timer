@@ -10,7 +10,6 @@ import UIKit
 class CustomCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        
         ModeThemeManager.addDarkModeObserver(to: self, selector: #selector(enableDarkMode))
     }
     
@@ -22,6 +21,5 @@ class CustomCell: UITableViewCell {
         let currentTheme = ModeThemeManager.currentTheme
         backgroundColor = currentTheme.backgroundColor
         textLabel?.textColor = currentTheme.textColor
-        
     }
 }

@@ -35,7 +35,6 @@ class TabBarController: UITabBarController {
   
         return navController
     }
-    
 }
 
 class CustomTabBar: UITabBar {
