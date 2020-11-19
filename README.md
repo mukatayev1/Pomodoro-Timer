@@ -1,6 +1,14 @@
 # Pomodoro-Timer
 ![logo](https://user-images.githubusercontent.com/53441647/99633557-714e3d00-2a82-11eb-968c-39e776f547fc.png)
 
+
+## Table of contents
+* [Description](#description)
+* [Features](#features)
+* [Screenshots](#screenshots)
+* [Technologies](#technologies)
+* [Setup](#setup)
+
 ## Description
 This is a simple timer app that helps the user to focus on work for a specific time period using Pomodoro Technique.
 #### How it works:
