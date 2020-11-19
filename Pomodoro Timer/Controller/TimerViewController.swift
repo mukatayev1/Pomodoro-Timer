@@ -64,7 +64,6 @@ class TimerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         navigationController?.navigationBar.tintColor = ModeTheme.light.backgroundColor
         overrideUserInterfaceStyle = .light
         onOffButtonSubviewed()

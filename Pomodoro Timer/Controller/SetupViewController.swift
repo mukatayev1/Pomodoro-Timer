@@ -13,7 +13,18 @@ protocol SetupViewControllerDelegate {
 
 class SetupViewController: UIViewController {
     
+    //MARK: - Properties
+    
     var delegate: SetupViewControllerDelegate?
+    
+    private let setTimerLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Select Timer Time"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 30, weight: .regular)
+        label.textColor = .gray
+        return label
+    }()
     
     let timePicker: UIDatePicker = {
         let picker = UIDatePicker()
@@ -22,19 +33,54 @@ class SetupViewController: UIViewController {
         return picker
     }()
     
-    func timerPickerSubviewed() {
-        view.addSubview(timePicker)
-        timePicker.translatesAutoresizingMaskIntoConstraints = false
-        timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    }
-    
     let doneButton: UIButton = {
         let button = OnOffButton()
         button.setTitle("Done", for: .normal)
         button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    let timerVC = TimerViewController()
+    
+    var darkMode = false
+    
+    //MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = ModeTheme.light.backgroundColor
+        
+        setupDarkMode()
+        //Subviews
+        timerPickerSubviewed()
+        doneButtonSubviewed()
+        setTimerLabelSubviewed()
+    }
+    
+    //MARK: - Helpers
+    
+    func setupDarkMode() {
+        darkMode = true
+        //notification for Dark Mode settings
+        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: Notification.Name("darkMode"), object: nil)
+    }
+    
+    //MARK: - Subvewing
+    
+    func setTimerLabelSubviewed() {
+        view.addSubview(setTimerLabel)
+        setTimerLabel.translatesAutoresizingMaskIntoConstraints = false
+        setTimerLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
+        setTimerLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50).isActive = true
+        setTimerLabel.topAnchor.constraint(equalTo: timePicker.topAnchor, constant: -40).isActive = true
+    }
+    
+    func timerPickerSubviewed() {
+        view.addSubview(timePicker)
+        timePicker.translatesAutoresizingMaskIntoConstraints = false
+        timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    }
     
     func doneButtonSubviewed() {
         view.addSubview(doneButton)
@@ -45,43 +91,19 @@ class SetupViewController: UIViewController {
         doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90).isActive = true
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        timerPickerSubviewed()
-        doneButtonSubviewed()
-        view.backgroundColor = ModeTheme.light.backgroundColor
-        
-        setupDarkMode()
-    }
-    
-    //MARK: - Enabling Dark Mode
-    
-    var darkMode = false
-    func setupDarkMode() {
-        darkMode = true
-        //notification for Dark Mode settings
-        NotificationCenter.default.addObserver(self, selector: #selector(enableDarkMode), name: Notification.Name("darkMode"), object: nil)
-    }
-    
-    
-    //MARK: - selectors
-    
-    let timerVC = TimerViewController()
-    @objc func doneButtonTapped() {
-//        dismiss(animated: true, completion: nil)
-        let pickedTime = timePicker.countDownDuration
-        delegate?.didSetTimer(pickedTime)
-        
-    }
+    //MARK: - Selectors
     
     @objc func enableDarkMode() {
         //user defaults for going back to light mode.
         let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
-        
         let theme = isDarkMode ? ModeTheme.dark : ModeTheme.light
-        
         view.backgroundColor = theme.backgroundColor
-//        navigationController?.navigationBar.barTintColor = theme.backgroundColor
- 
     }
+    
+    @objc func doneButtonTapped() {
+//        dismiss(animated: true, completion: nil)
+        let pickedTime = timePicker.countDownDuration
+        delegate?.didSetTimer(pickedTime)
+    }
+
 }
