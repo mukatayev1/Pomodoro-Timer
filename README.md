@@ -36,7 +36,3 @@ Every 4 pomodoro take a longer brake
 * MVC Pattern
 * Timer class
 * Custom Dark Mode
-
-## Setup
-To run this project: 
-Clone it to the XCode.
