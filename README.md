@@ -14,6 +14,7 @@ This is a simple timer app that helps the user to focus on work for a specific t
 #### How it works:
 Set the timer for 25 minutes -> Work on one task until timer finishes -> Take a short break -> Do it again.
 Every 4 pomodoro take a longer brake
+### See the video: [YouTube Link](https://youtu.be/InE5IUaO8iQ)
 
 ## Features
 * Smooth Animations for better UX
